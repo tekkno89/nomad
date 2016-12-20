@@ -12,6 +12,8 @@
 #
 # *********************************************************************
 
+# location of the Vagrantfile Template
+VAGRANTFILE=/etc/nomad/Vagrantfile.template
 
 # variables for vagrantfile
 VMBOX='ubuntu/trusty64'
@@ -23,11 +25,12 @@ usage() {
 echo "
 Create directory and Vagrant file for new project
 
-Usage:  $0 [-h] [-b] [-g] [-m] DIRECTORY PROJECT_NAME
+Usage:  $0 [-h] [-b] [-g] [-m] [-f] DIRECTORY PROJECT_NAME
         -h  help
         -b  Box that you would like to use for project. Default $VMBOX
         -g  Enable VirtualBox GUI. Default $VMGUI
         -m  Set Vagrant box memory. Default $VMMEM
+        -f  Set Vagrantfile Template. Default $VAGRANTFILE
 
 Example:
    $0 -b ubuntu/trusty64 /home/USER/vagrant/ test_box
@@ -49,12 +52,13 @@ if [ $# -lt 2 ]; then
   exit 1
 fi
 
-while getopts "?hb:g:m:" OPTION; do
+while getopts "?hb:g:m:v:" OPTION; do
   case $OPTION in
     h)  usage; exit 1;;
     b)  VMBOX=$OPTARG;;
     g)  VMGUI=$OPTARG;;
     m)  VMMEM=$OPTARG;;
+    f)  VAGRANTFILE=$OPTARG;;
   esac
 done
 
@@ -71,4 +75,4 @@ PROJECT_NAME=${@:$OPTIND+1:1}
 
 mkdir $DIRECTORY/$PROJECT_NAME
 touch $DIRECTORY/$PROJECT_NAME/Vagrantfile
-envsubst < Vagrantfile.template > $DIRECTORY/$PROJECT_NAME/Vagrantfile
+envsubst < $VAGRANTFILE > $DIRECTORY/$PROJECT_NAME/Vagrantfile
