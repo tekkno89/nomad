@@ -16,7 +16,7 @@
 VAGRANTFILE=/etc/nomad/Vagrantfile.template
 
 # variables for vagrantfile
-VMBOX='ubuntu/trusty64'
+VMBOX='ubuntu/xenial64'
 VMNAME='vagrant'
 VMGUI='false'
 VMMEM='1024'
